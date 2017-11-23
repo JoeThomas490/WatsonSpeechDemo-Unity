@@ -9,6 +9,9 @@ using IBM.Watson.DeveloperCloud.DataTypes;
 public class SpeechToTextExample : MonoBehaviour
 {
     public GridMaker gridMaker;
+    public AuthorizeSelection authorizeSelection;
+
+    public bool m_bIsAuthorizing = false;
 
 
     private string _username = "d51b83c2-ee63-45a5-85aa-a517c07f9585";
@@ -174,14 +177,18 @@ public class SpeechToTextExample : MonoBehaviour
                     Log.Debug("ExampleStreaming", string.Format("{0} ({1}, {2:0.00})\n", text, res.final ? "Final" : "Interim", alt.confidence));
 
                     //we want to disect text here
-                    TestString(text);
+                    if(!m_bIsAuthorizing)
+                    {
+                        if (TestString(text))
+                            break;
+                    }
 
                 }
             }
         }
     }
 
-    private void TestString(string testString)
+    private bool TestString(string testString)
     {
         string[] cutUpText = testString.Split(' ');
 
@@ -190,13 +197,13 @@ public class SpeechToTextExample : MonoBehaviour
         char c = SearchForLetter(cutUpText);
 
         string tag = c + num.ToString();
-
-        GameObject cell = gridMaker.GetGridCellByTag(tag);
-        if (cell != null)
+       
+        if(gridMaker.GetGridCellByTag(tag) != null)
         {
-            cell.GetComponent<SpriteRenderer>().color = Color.green;
-            Debug.Log("STRING : " + testString + " .. TRIGGERED : " + tag);
+            authorizeSelection.Authorize(tag);
+            return true;
         }
+        return false;
     }
 
     int SearchForNumber(string[] strings)
@@ -206,6 +213,7 @@ public class SpeechToTextExample : MonoBehaviour
             switch (s)
             {
                 case "one":
+                case "want":
                     return 1;
                 case "two":
                 case "to":
@@ -246,6 +254,7 @@ public class SpeechToTextExample : MonoBehaviour
                 case "be":
                     return 'B';
                 case "see":
+                case "the":
                     return 'C';
                 case "he":
                     return 'E';

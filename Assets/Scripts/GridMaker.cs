@@ -102,4 +102,18 @@ public class GridMaker : MonoBehaviour
         //Set the position of the transform parent to this new value
         this.transform.position = overallPos;
     }
+
+    public void ResetAllCells()
+    {
+        foreach(KeyValuePair<string,GameObject> cell in m_gridCellList)
+        {
+            SpriteRenderer sr = cell.Value.GetComponent<SpriteRenderer>();
+            sr.color = Color.white;
+        }
+    }
+
+    public void ExitApplication()
+    {
+        Application.Quit();
+    }
 }
