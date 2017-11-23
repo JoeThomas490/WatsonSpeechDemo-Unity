@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 using IBM.Watson.DeveloperCloud.Logging;
@@ -10,6 +11,8 @@ public class SpeechToTextExample : MonoBehaviour
 {
     public GridMaker gridMaker;
     public AuthorizeSelection authorizeSelection;
+
+    public Text titleText;
 
     public bool m_bIsAuthorizing = false;
 
@@ -180,7 +183,14 @@ public class SpeechToTextExample : MonoBehaviour
                     if(!m_bIsAuthorizing)
                     {
                         if (TestString(text))
+                        {
+                            titleText.text = "Cell name recognized!";
                             break;
+                        }
+                        else
+                        {
+                            titleText.text = "No cell name recognized in speech. Please try again!";
+                        }
                     }
 
                 }
@@ -191,8 +201,6 @@ public class SpeechToTextExample : MonoBehaviour
     private bool TestString(string testString)
     {
         string[] cutUpText = testString.Split(' ');
-
-
         int num = SearchForNumber(cutUpText);
         char c = SearchForLetter(cutUpText);
 

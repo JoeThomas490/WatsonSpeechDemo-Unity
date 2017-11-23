@@ -592,6 +592,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridMaker: {fileID: 2137623322}
   authorizeSelection: {fileID: 1381508069}
+  titleText: {fileID: 1583488442}
   m_bIsAuthorizing: 0
 --- !u!1 &1048099067
 GameObject:
